@@ -1,3 +1,5 @@
 /target
 /data
-**/NOTES.md
+SPEC.md:Zone.Identifier
+SPEC.md
+NOTES.md

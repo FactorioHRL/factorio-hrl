@@ -1,10 +1,10 @@
 # probe-fluid-boxes
 
-Mały mod do Factorio 2.1, który stawia maszyny w różnych orientacjach, z odbiciem (`mirror`) i recepturami, a potem zapisuje do `script-output/probe.json` połączenia rurowe, które **zgłasza sama gra** (`LuaEntity::get_fluid_box_pipe_connections`). Służy do sprawdzania, czy nasza logika połączeń (`crates/fsim-render/src/fluids.rs`) zgadza się z silnikiem. Oczekiwane wartości w testach tego modułu pochodzą z jego wyników.
+A small Factorio 2.1 mod that places machines in various orientations, with mirroring (`mirror`) and recipes, then writes to `script-output/probe.json` the pipe connections **reported by the game itself** (`LuaEntity::get_fluid_box_pipe_connections`). It is used to check that our connection logic (`crates/fsim-render/src/fluids.rs`) agrees with the engine. The expected values in that module's tests come from its output.
 
-Sonda stawia: chemical plant (receptury `plastic-bar`, `light-oil-cracking` i bez receptury, 4 kierunki, z odbiciem i bez), rafinerię (`basic-oil-processing`), pipe-to-ground i zbiornik.
+The probe places: a chemical plant (recipes `plastic-bar`, `light-oil-cracking` and no recipe, 4 directions, mirrored and not), a refinery (`basic-oil-processing`), a pipe-to-ground and a storage tank.
 
-## Uruchomienie (WSL, instalacja Steam na Windows)
+## Running (example: WSL with a Steam install on Windows)
 
 ```
 P=/mnt/c/temp/fsim-probe
@@ -20,14 +20,14 @@ cd /mnt/c/temp
   --create C:/temp/fsim-probe/probe.zip
 ```
 
-Wynik: `$P/script-output/probe.json`. Mod wykonuje się w `on_init` podczas tworzenia mapy, więc nie trzeba uruchamiać serwera.
+Output: `$P/script-output/probe.json`. The mod runs in `on_init` while the map is created, so no server needs to be started.
 
-## Czego dowiedzieliśmy się z sondy (Factorio 2.1.21)
+## What the probe taught us (Factorio 2.1.21)
 
-- `mirror` odbija porty maszyny względem jej osi X (przed obrotem).
-- Receptura z **jedną** cieczą po danej stronie (wejście albo wyjście) łączy **wszystkie** porty tej strony w jeden zbiornik, więc chemical plant z `plastic-bar` ma oba porty wejścia aktywne.
-- Z dwiema cieczami każdy port ma swoją ciecz (kolejno).
-- Gdy w recepturze jest `fluidbox_index`, wskazuje on port (numeracja od 1 wśród portów tego typu). Rafineria z `basic-oil-processing` używa wejścia nr 2 i wyjścia nr 3.
-- Receptura bez cieczy po danej stronie wyłącza porty tej strony.
-- Maszyna bez receptury ma wszystkie porty aktywne (chyba że prototyp ustawia `fluid_boxes_off_when_no_fluid_recipe`).
-- Pipe-to-ground ma jedno połączenie zwykłe (z tyłu względem kierunku podziemnego) i jedno `underground`.
+- `mirror` flips the machine's ports about its X axis (before rotation).
+- A recipe with **one** fluid on a given side (input or output) joins **all** ports of that side into one tank, so a chemical plant with `plastic-bar` has both input ports active.
+- With two fluids every port gets its own fluid (in order).
+- When a recipe has `fluidbox_index`, it selects the port (numbered from 1 among ports of that kind). A refinery with `basic-oil-processing` uses input 2 and output 3.
+- A recipe with no fluid on a given side disables the ports of that side.
+- A machine without a recipe has all ports active (unless the prototype sets `fluid_boxes_off_when_no_fluid_recipe`).
+- A pipe-to-ground has one regular connection (at the back relative to the underground direction) and one `underground` connection.

@@ -5,7 +5,7 @@ use fsim_data::RawData;
 
 use crate::canvas::Canvas;
 use crate::error::{Error, Result};
-use crate::rng::Rng;
+use crate::rng::{pick, Rng, RngExt, SeedableRng};
 use crate::Params;
 
 /// Prototype types to sample from (placeable, with graphics, ordinary entities).
@@ -129,7 +129,7 @@ const DIRECTIONS: [Direction; 4] = [
 /// Random entities at random places: picks a random entity, direction and tile,
 /// places it if it fits, and repeats up to `params.entities`. The same seed gives the same result.
 pub fn generate(data: &RawData, params: Params) -> Result<Design> {
-    let mut rng = Rng::new(params.seed);
+    let mut rng = Rng::seed_from_u64(params.seed);
     let mut canvas = Canvas::new(data, params.width, params.height);
     let pool = candidates(&mut canvas)?;
     let machines: Vec<&Candidate> = pool
@@ -142,22 +142,22 @@ pub fn generate(data: &RawData, params: Params) -> Result<Design> {
     let mut attempts = 0;
     while placed < params.entities && attempts < params.entities * ATTEMPTS_PER_ENTITY {
         attempts += 1;
-        let entity = rng.pick(&pool);
-        let direction = *rng.pick(&DIRECTIONS);
+        let entity = pick(&mut rng, &pool);
+        let direction = *pick(&mut rng, &DIRECTIONS);
         let (w, h) = canvas.size(&entity.name, direction)?;
         if w > params.width || h > params.height {
             continue;
         }
-        let x = rng.range(0, params.width - w + 1);
-        let y = rng.range(0, params.height - h + 1);
+        let x = rng.random_range(0..params.width - w + 1);
+        let y = rng.random_range(0..params.height - h + 1);
         let Ok(index) = canvas.place(&entity.name, x, y, direction) else {
             continue;
         };
         if let Some(options) = recipes.get(&entity.name).filter(|r| !r.is_empty()) {
-            canvas.set_recipe(index, rng.pick(options));
+            canvas.set_recipe(index, pick(&mut rng, options));
         }
         if matches!(entity.kind.as_str(), "underground-belt" | "loader") {
-            let io = if rng.chance(0.5) {
+            let io = if rng.random_bool(0.5) {
                 IoType::Input
             } else {
                 IoType::Output

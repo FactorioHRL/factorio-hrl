@@ -10,7 +10,7 @@ name = "fsim"
 path = "src/main.rs"
 
 [dependencies]
-clap = { version = "4.5.61", features = ["derive", "env"] }
+clap.workspace = true
 fsim-blueprint.workspace = true
 fsim-data.workspace = true
 fsim-gen.workspace = true

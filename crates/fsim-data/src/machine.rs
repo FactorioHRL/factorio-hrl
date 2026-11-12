@@ -38,6 +38,8 @@ struct EffectReceiver {
     base_effect: Effects,
 }
 
+/// Parses a Factorio energy string (`"150kW"`) into watts. Hand-rolled: the format is a tiny
+/// SI-prefix subset, and no maintained crate parses Factorio's unit strings.
 pub fn parse_power(text: &str) -> Result<f64> {
     let invalid = || Error::InvalidEnergy(text.to_owned());
     let body = text.trim().strip_suffix('W').ok_or_else(invalid)?;

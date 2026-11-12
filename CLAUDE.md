@@ -4,7 +4,7 @@ Rust workspace (`crates/fsim-*`): Factorio blueprint decoding, data dump, render
 
 ## Language
 
-Write everything in English: code, identifiers, comments, doc comments, error and CLI messages, commit messages. Existing Polish text in `README.md`, `SPEC.md` and `NOTES.md` is translated when a file is touched.
+Write everything in English: code, identifiers, comments, doc comments, error and CLI messages, commit messages. Docs (`README.md`, `SPEC.md`, `NOTES.md`) are English too.
 
 ## Reuse before writing
 

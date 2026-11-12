@@ -9,6 +9,16 @@ rust-version = "1.75"
 license = "MIT"
 
 [workspace.dependencies]
+base64 = "0.22"
+clap = { version = "4.5.61", features = ["derive", "env"] }
+flate2 = "1"
+fontdue = "0.9.5"
+rand = "0.10"
+rand_chacha = "0.10"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tiny-skia = "0.11"
 fsim-blueprint = { path = "crates/fsim-blueprint" }
 fsim-data = { path = "crates/fsim-data" }
 fsim-gen = { path = "crates/fsim-gen" }

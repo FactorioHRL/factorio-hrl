@@ -216,9 +216,7 @@ fn gen(args: GenArgs) -> Result<()> {
                 StyleArg::Assemblers => legacy::Style::Assemblers,
                 StyleArg::Smelting => legacy::Style::Smelting,
                 StyleArg::Chemical => legacy::Style::Chemical,
-                StyleArg::Random => {
-                    legacy::Style::ALL[(fsim_gen::Rng::new(seed).next_u64() % 3) as usize]
-                }
+                StyleArg::Random => legacy::Style::from_seed(seed),
             };
             (
                 legacy::generate(&data, style, params)?,

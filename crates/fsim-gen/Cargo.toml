@@ -8,7 +8,9 @@ license.workspace = true
 [dependencies]
 fsim-blueprint.workspace = true
 fsim-data.workspace = true
-thiserror = "2"
+rand.workspace = true
+rand_chacha.workspace = true
+thiserror.workspace = true
 
 [dev-dependencies]
 fsim-render.workspace = true

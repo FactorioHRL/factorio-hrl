@@ -1,30 +1,56 @@
 # factorio-hrl
 
-Narzędzia do blueprintów Factorio (dekodowanie, model, render, generator). Specyfikacja w `SPEC.md`.
+Factorio blueprint tooling in Rust: decoding, a typed model, a renderer and a random generator. The long-term goal is a fast factory simulator for RL/HRL training. See `SPEC.md` for the specification and `crates/*/NOTES.md` for per-crate notes.
 
-## Wymagane dane (nie ma ich w repo)
+## Requirements
 
-Grafiki i dump pochodzą od Wube, więc **trzeba mieć własną kopię gry** i skopiować z niej dane do `data/` (katalog jest w `.gitignore`):
+- Stable Rust (see `rust-version` in `Cargo.toml`).
+- To run the CLI: a data dump from a **vanilla Factorio install** (base game, optionally with Space Age; no mods). Sprite rendering additionally needs the game's graphics. Neither is in this repo, because they belong to Wube and cannot be redistributed. Building and testing need neither.
+
+## Quick start
 
 ```
-scripts/setup-data.sh "<katalog gry>" <data-raw-dump.json>
-# WSL + Steam, przykład:
-scripts/setup-data.sh "/mnt/c/Program Files (x86)/Steam/steamapps/common/Factorio" /mnt/c/temp/fsim-dump21/script-output/data-raw-dump.json
+cargo build --release
+cargo test --workspace
 ```
 
-Skrypt kopiuje `graphics/entity` i `graphics/icons` każdego moda (ok. 1,8 GB, kilka minut przez `/mnt/c`) do `data/game/data/<mod>/` oraz dump do `data/data-raw-dump.json`.
+Building and testing need no game data: tests that need it skip themselves.
 
-Dump musi pochodzić z **tej samej wersji** gry co grafiki (obecnie 2.1.21), inaczej maszyny rysują się jako prostokąty. Dump robi się przez `factorio --dump-data` (plik `script-output/data-raw-dump.json`).
+## Game data (needed by the CLI)
 
-Inny katalog danych: `--data <dir>` albo zmienna `FSIM_DATA`.
+1. Generate a data dump from a vanilla game with no mods enabled (the only step required for `--schematic` renders):
+   ```
+   factorio --mod-directory <empty-dir> --dump-data
+   ```
+   The dump is written to `script-output/data-raw-dump.json` in Factorio's write-data directory.
+2. Copy the dump, and for sprite renders the entity graphics, into `data/` (git-ignored):
+   ```
+   scripts/setup-data.sh "<factorio-install-dir>" <data-raw-dump.json>
+   ```
+   The script copies `graphics/entity` and `graphics/icons` of each mod, which is on the order of a couple of GB for the base game with Space Age. Without the graphics the renderer falls back to schematic rectangles with a warning.
+
+The dump must come from the **same game version** as the graphics, otherwise machines render as rectangles. Use another data directory with `--data <dir>` or `FSIM_DATA`.
 
 ## CLI
 
 ```
-cargo run --release -p fsim-cli -- gen 32x32 -e 30 --png out.png    # 30 losowych encji na 32x32, tekst na stdout
+cargo run --release -p fsim-cli -- gen 32x32 -e 30 --png out.png         # 30 random entities on 32x32, text on stdout
 cargo run --release -p fsim-cli -- gen 40x24 -e 50 --seed 7 -o bp.txt --png out.png
-cargo run --release -p fsim-cli -- gen --legacy chemical --png out.png  # stary generator szablonowy
+cargo run --release -p fsim-cli -- gen --legacy chemical --png out.png   # old template generator
 cargo run --release -p fsim-cli -- render bp.txt -o out.png --grid
+cargo run --release -p fsim-cli -- info bp.txt
 ```
 
-Render ma pod mapą pasek z naiwnym bilansem wejść i wyjść (`--no-summary` go wyłącza). Opis w `crates/fsim-cli/NOTES.md`.
+The render adds a bar under the map with a naive input/output balance (`--no-summary` turns it off). More in `crates/fsim-cli/NOTES.md`.
+
+## Tests that use game data
+
+Tests needing the full dump or graphics are skipped unless these variables are set:
+
+```
+FSIM_DUMP=<data-raw-dump.json> FSIM_GAME_DIR=<factorio-install-dir> cargo test --workspace
+```
+
+## Development
+
+See `CLAUDE.md` for coding conventions. Before sending changes: `cargo fmt --check`, `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace`.

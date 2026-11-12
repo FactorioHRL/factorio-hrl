@@ -9,7 +9,7 @@ use fsim_data::RawData;
 
 use crate::canvas::{self, Canvas};
 use crate::error::Result;
-use crate::rng::Rng;
+use crate::rng::{pick, Rng, SeedableRng};
 use crate::Params;
 use layout::Kind;
 
@@ -26,6 +26,11 @@ pub enum Style {
 impl Style {
     pub const ALL: [Style; 3] = [Style::Assemblers, Style::Smelting, Style::Chemical];
 
+    /// A style chosen deterministically from `seed`.
+    pub fn from_seed(seed: u64) -> Style {
+        *pick(&mut Rng::seed_from_u64(seed), &Style::ALL)
+    }
+
     pub fn name(self) -> &'static str {
         match self {
             Style::Assemblers => "assemblers",
@@ -37,7 +42,7 @@ impl Style {
 
 /// The same `(style, params)` always gives the same design. `params.entities` is ignored.
 pub fn generate(data: &RawData, style: Style, params: Params) -> Result<Design> {
-    let mut rng = Rng::new(params.seed);
+    let mut rng = Rng::seed_from_u64(params.seed);
     let (w, h) = (params.width, params.height);
     match style {
         Style::Assemblers => {
