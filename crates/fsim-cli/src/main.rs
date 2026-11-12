@@ -1,3 +1,5 @@
+use std::collections::BTreeMap;
+use std::io::Read;
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
@@ -22,8 +24,47 @@ enum Command {
     Gen(GenArgs),
     /// Render an existing blueprint file to PNG
     Render(RenderArgs),
-    /// Print the number of blueprints and entities in a blueprint file
-    Info { blueprint: PathBuf },
+    /// Decode a blueprint: print a summary (default) or the full JSON
+    Decode(DecodeArgs),
+    /// Print the naive input/output balance of a blueprint (items per second)
+    Calc(CalcArgs),
+    /// Show a typed view of a prototype from the data dump
+    Inspect(InspectArgs),
+}
+
+#[derive(Args)]
+struct DecodeArgs {
+    /// Blueprint file, or `-` to read the blueprint string from stdin
+    blueprint: String,
+    /// Print the full decoded JSON instead of the summary
+    #[arg(long)]
+    json: bool,
+}
+
+#[derive(Args)]
+struct CalcArgs {
+    /// Blueprint file, or `-` to read the blueprint string from stdin
+    blueprint: String,
+    #[command(flatten)]
+    data: DataArgs,
+}
+
+#[derive(Args)]
+struct InspectArgs {
+    kind: InspectKind,
+    /// Prototype name, e.g. `iron-gear-wheel`
+    name: String,
+    #[command(flatten)]
+    data: DataArgs,
+}
+
+#[derive(Clone, Copy, ValueEnum)]
+enum InspectKind {
+    Recipe,
+    Machine,
+    Module,
+    Item,
+    Entity,
 }
 
 #[derive(Args)]
@@ -132,17 +173,107 @@ fn run(command: Command) -> Result<()> {
             let data = load_data(&args.data.data)?;
             render(&design, &data, &args.data.data, &args.render, &args.output)
         }
-        Command::Info { blueprint } => {
-            let root = fsim_blueprint::load(&blueprint)?;
-            let entities: usize = root.blueprints().map(|b| b.entities.len()).sum();
-            println!(
-                "{}: {} blueprint(s), {entities} entities",
-                blueprint.display(),
-                root.blueprints().count()
-            );
-            Ok(())
+        Command::Decode(args) => decode(&args),
+        Command::Calc(args) => calc(&args),
+        Command::Inspect(args) => inspect(&args),
+    }
+}
+
+/// Reads a blueprint string from a file, or from stdin when `source` is `-`.
+fn read_blueprint(source: &str) -> Result<String> {
+    if source == "-" {
+        let mut text = String::new();
+        std::io::stdin().read_to_string(&mut text)?;
+        Ok(text)
+    } else {
+        Ok(std::fs::read_to_string(source)?)
+    }
+}
+
+fn decode(args: &DecodeArgs) -> Result<()> {
+    let text = read_blueprint(&args.blueprint)?;
+    if args.json {
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&fsim_blueprint::decode_json(&text)?)?
+        );
+        return Ok(());
+    }
+    let root = fsim_blueprint::decode(&text)?;
+    for (index, design) in Design::from_root(&root)?.iter().enumerate() {
+        println!("blueprint {index}: {} entities", design.entities.len());
+        print_counts(
+            "entities",
+            design.entities.iter().map(|e| e.name.to_string()),
+        );
+        print_counts(
+            "recipes",
+            design
+                .entities
+                .iter()
+                .filter_map(|e| e.recipe.as_ref())
+                .map(|r| r.name.to_string()),
+        );
+        print_counts(
+            "modules",
+            design
+                .entities
+                .iter()
+                .flat_map(|e| &e.modules)
+                .flat_map(|m| std::iter::repeat(m.item.to_string()).take(m.count as usize)),
+        );
+    }
+    Ok(())
+}
+
+/// Prints `title:` followed by `name x count` lines, most frequent first.
+fn print_counts(title: &str, names: impl Iterator<Item = String>) {
+    let mut counts: BTreeMap<String, usize> = BTreeMap::new();
+    for name in names {
+        *counts.entry(name).or_default() += 1;
+    }
+    if counts.is_empty() {
+        return;
+    }
+    let mut rows: Vec<_> = counts.into_iter().collect();
+    rows.sort_by(|a, b| b.1.cmp(&a.1).then_with(|| a.0.cmp(&b.0)));
+    println!("  {title}:");
+    for (name, count) in rows {
+        println!("    {count:>4} x {name}");
+    }
+}
+
+fn calc(args: &CalcArgs) -> Result<()> {
+    let root = fsim_blueprint::decode(&read_blueprint(&args.blueprint)?)?;
+    let data = load_data(&args.data.data)?;
+    for (index, design) in Design::from_root(&root)?.iter().enumerate() {
+        println!("blueprint {index}:");
+        let flows = fsim_calc::net_flows(design, &data)?;
+        for (title, wanted) in [("inputs", true), ("outputs", false)] {
+            println!("  {title}:");
+            for flow in flows.iter().filter(|f| f.is_input() == wanted) {
+                println!("    {:>9.3}/s  {}", flow.per_second.abs(), flow.name);
+            }
         }
     }
+    Ok(())
+}
+
+fn inspect(args: &InspectArgs) -> Result<()> {
+    let data = load_data(&args.data.data)?;
+    let name = args.name.as_str();
+    let found = match args.kind {
+        InspectKind::Recipe => data.recipe(name)?.map(|v| format!("{v:#?}")),
+        InspectKind::Machine => data.machine(name)?.map(|v| format!("{v:#?}")),
+        InspectKind::Module => data.module(name)?.map(|v| format!("{v:#?}")),
+        InspectKind::Item => data.item(name)?.map(|v| format!("{v:#?}")),
+        InspectKind::Entity => data.entity_geometry(name)?.map(|v| format!("{v:#?}")),
+    };
+    println!(
+        "{}",
+        found.ok_or_else(|| format!("'{name}' not found in the dump"))?
+    );
+    Ok(())
 }
 
 fn load_data(dir: &Path) -> Result<RawData> {

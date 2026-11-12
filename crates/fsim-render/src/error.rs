@@ -19,6 +19,8 @@ pub enum Error {
     },
     #[error(transparent)]
     Data(#[from] fsim_data::Error),
+    #[error(transparent)]
+    Calc(#[from] fsim_calc::Error),
 }
 
 pub type Result<T> = std::result::Result<T, Error>;

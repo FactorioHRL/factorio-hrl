@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use fsim_blueprint::model::Design;
+use fsim_calc::Flow;
 use fsim_data::{GameDir, RawData};
 use tiny_skia::{
     Color, FillRule, FilterQuality, IntRect, Paint, PathBuilder, Pixmap, PixmapPaint, Rect,
@@ -20,7 +21,7 @@ use crate::pipes;
 use crate::sprite::{
     belt_layers, entity_layers, pipe_layers, splitter_layers, underground_layers, SpriteLayer,
 };
-use crate::summary::{self, Bar, Flow, Item};
+use crate::summary::{self, Bar, Item};
 use crate::text::{self, Weight};
 
 const MAX_SIDE_PX: u32 = 16_384;
@@ -119,7 +120,7 @@ impl<'a> Renderer<'a> {
             });
         }
         let flows = if options.io_summary {
-            summary::net_flows(design, self.data)?
+            fsim_calc::net_flows(design, self.data)?
         } else {
             Vec::new()
         };

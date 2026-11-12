@@ -38,7 +38,9 @@ cargo run --release -p fsim-cli -- gen 32x32 -e 30 --png out.png         # 30 ra
 cargo run --release -p fsim-cli -- gen 40x24 -e 50 --seed 7 -o bp.txt --png out.png
 cargo run --release -p fsim-cli -- gen --legacy chemical --png out.png   # old template generator
 cargo run --release -p fsim-cli -- render bp.txt -o out.png --grid
-cargo run --release -p fsim-cli -- info bp.txt
+cargo run --release -p fsim-cli -- decode bp.txt             # entity/recipe/module counts (--json for full JSON)
+cargo run --release -p fsim-cli -- calc bp.txt               # naive input/output balance, items per second
+cargo run --release -p fsim-cli -- inspect recipe plastic-bar   # typed view from the dump
 ```
 
 The render adds a bar under the map with a naive input/output balance (`--no-summary` turns it off). More in `crates/fsim-cli/NOTES.md`.

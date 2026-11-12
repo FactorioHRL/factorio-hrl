@@ -18,4 +18,3 @@ pub use error::{Error, Result};
 pub use image::Image;
 pub use options::{Mode, Options};
 pub use renderer::{render, Renderer};
-pub use summary::{net_flows, Flow};
