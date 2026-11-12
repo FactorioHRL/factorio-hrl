@@ -1,0 +1,465 @@
+{
+ "recipe": {
+  "iron-gear-wheel": {
+   "type": "recipe",
+   "name": "iron-gear-wheel",
+   "ingredients": [
+    {
+     "type": "item",
+     "name": "iron-plate",
+     "amount": 2
+    }
+   ],
+   "results": [
+    {
+     "type": "item",
+     "name": "iron-gear-wheel",
+     "amount": 1
+    }
+   ],
+   "allow_productivity": true
+  },
+  "plastic-bar": {
+   "type": "recipe",
+   "name": "plastic-bar",
+   "category": "chemistry-or-cryogenics",
+   "energy_required": 1,
+   "enabled": false,
+   "auto_recycle": false,
+   "ingredients": [
+    {
+     "type": "fluid",
+     "name": "petroleum-gas",
+     "amount": 20
+    },
+    {
+     "type": "item",
+     "name": "coal",
+     "amount": 1
+    }
+   ],
+   "results": [
+    {
+     "type": "item",
+     "name": "plastic-bar",
+     "amount": 2
+    }
+   ],
+   "allow_productivity": true
+  },
+  "uranium-processing": {
+   "type": "recipe",
+   "name": "uranium-processing",
+   "energy_required": 12,
+   "enabled": false,
+   "auto_recycle": false,
+   "category": "centrifuging",
+   "ingredients": [
+    {
+     "type": "item",
+     "name": "uranium-ore",
+     "amount": 10
+    }
+   ],
+   "icon": "__base__/graphics/icons/uranium-processing.png",
+   "results": [
+    {
+     "type": "item",
+     "name": "uranium-235",
+     "probability": 0.007000000000000001,
+     "amount": 1
+    },
+    {
+     "type": "item",
+     "name": "uranium-238",
+     "probability": 0.993,
+     "amount": 1
+    }
+   ],
+   "allow_productivity": true
+  },
+  "kovarex-enrichment-process": {
+   "type": "recipe",
+   "name": "kovarex-enrichment-process",
+   "energy_required": 60,
+   "enabled": false,
+   "auto_recycle": false,
+   "category": "centrifuging",
+   "icon": "__base__/graphics/icons/kovarex-enrichment-process.png",
+   "ingredients": [
+    {
+     "type": "item",
+     "name": "uranium-235",
+     "amount": 40,
+     "ignored_by_stats": 40
+    },
+    {
+     "type": "item",
+     "name": "uranium-238",
+     "amount": 5,
+     "ignored_by_stats": 2
+    }
+   ],
+   "results": [
+    {
+     "type": "item",
+     "name": "uranium-235",
+     "amount": 41,
+     "ignored_by_stats": 40,
+     "ignored_by_productivity": 40
+    },
+    {
+     "type": "item",
+     "name": "uranium-238",
+     "amount": 2,
+     "ignored_by_stats": 2,
+     "ignored_by_productivity": 2
+    }
+   ],
+   "allow_decomposition": false,
+   "allow_productivity": true,
+   "allow_quality": false
+  },
+  "recipe-unknown": {
+   "type": "recipe",
+   "name": "recipe-unknown",
+   "icon": "__core__/graphics/icons/unknown.png",
+   "hidden": true,
+   "ingredients": {},
+   "results": {}
+  },
+  "parameter-0": {
+   "type": "recipe",
+   "name": "parameter-0",
+   "icon": "__base__/graphics/icons/parameter/parameter-0.png",
+   "category": "parameters",
+   "parameter": true,
+   "allow_productivity": true
+  },
+  "steel-plate": {
+   "type": "recipe",
+   "name": "steel-plate",
+   "category": "smelting",
+   "enabled": false,
+   "energy_required": 16,
+   "ingredients": [
+    {
+     "type": "item",
+     "name": "iron-plate",
+     "amount": 5
+    }
+   ],
+   "results": [
+    {
+     "type": "item",
+     "name": "steel-plate",
+     "amount": 1
+    }
+   ],
+   "allow_productivity": true
+  },
+  "copper-cable": {
+   "type": "recipe",
+   "name": "copper-cable",
+   "enabled": false,
+   "ingredients": [
+    {
+     "type": "item",
+     "name": "copper-plate",
+     "amount": 1
+    }
+   ],
+   "results": [
+    {
+     "type": "item",
+     "name": "copper-cable",
+     "amount": 2
+    }
+   ],
+   "allow_productivity": true,
+   "category": "electronics"
+  }
+ },
+ "assembling-machine": {
+  "assembling-machine-2": {
+   "type": "assembling-machine",
+   "name": "assembling-machine-2",
+   "crafting_speed": 0.75,
+   "crafting_categories": [
+    "basic-crafting",
+    "crafting",
+    "advanced-crafting",
+    "crafting-with-fluid",
+    "electronics",
+    "electronics-with-fluid",
+    "pressing",
+    "metallurgy-or-assembling",
+    "organic-or-hand-crafting",
+    "organic-or-assembling",
+    "electronics-or-assembling",
+    "cryogenics-or-assembling",
+    "crafting-with-fluid-or-metallurgy"
+   ],
+   "module_slots": 2,
+   "energy_usage": "150kW",
+   "allowed_effects": [
+    "consumption",
+    "speed",
+    "productivity",
+    "pollution",
+    "quality"
+   ],
+   "collision_box": [
+    [
+     -1.2,
+     -1.2
+    ],
+    [
+     1.2,
+     1.2
+    ]
+   ]
+  },
+  "chemical-plant": {
+   "type": "assembling-machine",
+   "name": "chemical-plant",
+   "crafting_speed": 1,
+   "crafting_categories": [
+    "chemistry",
+    "chemistry-or-cryogenics",
+    "organic-or-chemistry"
+   ],
+   "module_slots": 3,
+   "energy_usage": "210kW",
+   "allowed_effects": [
+    "consumption",
+    "speed",
+    "productivity",
+    "pollution",
+    "quality"
+   ],
+   "collision_box": [
+    [
+     -1.2,
+     -1.2
+    ],
+    [
+     1.2,
+     1.2
+    ]
+   ]
+  },
+  "oil-refinery": {
+   "type": "assembling-machine",
+   "name": "oil-refinery",
+   "crafting_speed": 1,
+   "crafting_categories": [
+    "oil-processing"
+   ],
+   "module_slots": 3,
+   "energy_usage": "420kW",
+   "allowed_effects": [
+    "consumption",
+    "speed",
+    "productivity",
+    "pollution"
+   ],
+   "collision_box": [
+    [
+     -2.4,
+     -2.4
+    ],
+    [
+     2.4,
+     2.4
+    ]
+   ]
+  },
+  "biochamber": {
+   "type": "assembling-machine",
+   "name": "biochamber",
+   "crafting_speed": 2,
+   "crafting_categories": [
+    "organic",
+    "organic-or-hand-crafting",
+    "organic-or-assembling",
+    "organic-or-chemistry"
+   ],
+   "module_slots": 4,
+   "energy_usage": "500kW",
+   "allowed_effects": [
+    "consumption",
+    "speed",
+    "productivity",
+    "pollution",
+    "quality"
+   ],
+   "effect_receiver": {
+    "base_effect": {
+     "productivity": 0.5
+    }
+   },
+   "collision_box": [
+    [
+     -1.2,
+     -1.2
+    ],
+    [
+     1.2,
+     1.2
+    ]
+   ]
+  },
+  "captive-biter-spawner": {
+   "type": "assembling-machine",
+   "name": "captive-biter-spawner",
+   "crafting_speed": 1,
+   "crafting_categories": [
+    "captive-spawner-process"
+   ],
+   "module_slots": 0,
+   "energy_usage": "100kW",
+   "allowed_effects": {},
+   "collision_box": [
+    [
+     -2.2,
+     -2.2
+    ],
+    [
+     2.2,
+     2.2
+    ]
+   ]
+  }
+ },
+ "furnace": {
+  "stone-furnace": {
+   "type": "furnace",
+   "name": "stone-furnace",
+   "crafting_speed": 1,
+   "crafting_categories": [
+    "smelting"
+   ],
+   "energy_usage": "90kW",
+   "allowed_effects": [
+    "speed",
+    "consumption",
+    "pollution"
+   ],
+   "effect_receiver": {
+    "uses_module_effects": false,
+    "uses_beacon_effects": false,
+    "uses_surface_effects": true
+   },
+   "collision_box": [
+    [
+     -0.7,
+     -0.7
+    ],
+    [
+     0.7,
+     0.7
+    ]
+   ]
+  }
+ },
+ "module": {
+  "efficiency-module-2": {
+   "type": "module",
+   "name": "efficiency-module-2",
+   "category": "efficiency",
+   "tier": 2,
+   "effect": {
+    "consumption": -0.4
+   }
+  },
+  "productivity-module-3": {
+   "type": "module",
+   "name": "productivity-module-3",
+   "category": "productivity",
+   "tier": 3,
+   "effect": {
+    "productivity": 0.1,
+    "consumption": 0.8,
+    "pollution": 0.1,
+    "speed": -0.15
+   }
+  }
+ },
+ "item": {
+  "iron-plate": {
+   "type": "item",
+   "name": "iron-plate",
+   "stack_size": 100,
+   "icon": "__base__/graphics/icons/iron-plate.png"
+  },
+  "plastic-bar": {
+   "type": "item",
+   "name": "plastic-bar",
+   "stack_size": 100,
+   "icon": "__base__/graphics/icons/plastic-bar.png"
+  }
+ },
+ "fluid": {
+  "petroleum-gas": {
+   "type": "fluid",
+   "name": "petroleum-gas",
+   "icon": "__base__/graphics/icons/fluid/petroleum-gas.png"
+  }
+ },
+ "transport-belt": {
+  "transport-belt": {
+   "type": "transport-belt",
+   "name": "transport-belt",
+   "collision_box": [
+    [
+     -0.4,
+     -0.4
+    ],
+    [
+     0.4,
+     0.4
+    ]
+   ]
+  }
+ },
+ "pipe": {
+  "pipe": {
+   "type": "pipe",
+   "name": "pipe",
+   "collision_box": [
+    [
+     -0.29,
+     -0.29
+    ],
+    [
+     0.29,
+     0.29
+    ]
+   ]
+  }
+ },
+ "beacon": {
+  "beacon": {
+   "type": "beacon",
+   "name": "beacon",
+   "collision_box": [
+    [
+     -1.2,
+     -1.2
+    ],
+    [
+     1.2,
+     1.2
+    ]
+   ],
+   "module_slots": 2,
+   "energy_usage": "480kW",
+   "allowed_effects": [
+    "consumption",
+    "speed",
+    "pollution"
+   ]
+  }
+ }
+}

@@ -1,0 +1,21 @@
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.package]
+version = "0.0.0"
+edition = "2021"
+rust-version = "1.75"
+license = "MIT"
+
+[workspace.dependencies]
+fsim-blueprint = { path = "crates/fsim-blueprint" }
+fsim-data = { path = "crates/fsim-data" }
+fsim-gen = { path = "crates/fsim-gen" }
+fsim-render = { path = "crates/fsim-render" }
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+all = "warn"

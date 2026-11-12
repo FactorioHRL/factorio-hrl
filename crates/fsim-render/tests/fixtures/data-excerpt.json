@@ -1,0 +1,191 @@
+{
+ "pipe": {
+  "pipe": {
+   "type": "pipe",
+   "name": "pipe",
+   "collision_box": [
+    [
+     -0.29,
+     -0.29
+    ],
+    [
+     0.29,
+     0.29
+    ]
+   ]
+  }
+ },
+ "pipe-to-ground": {
+  "pipe-to-ground": {
+   "type": "pipe-to-ground",
+   "name": "pipe-to-ground",
+   "collision_box": [
+    [
+     -0.29,
+     -0.29
+    ],
+    [
+     0.29,
+     0.2
+    ]
+   ]
+  }
+ },
+ "transport-belt": {
+  "transport-belt": {
+   "type": "transport-belt",
+   "name": "transport-belt",
+   "collision_box": [
+    [
+     -0.4,
+     -0.4
+    ],
+    [
+     0.4,
+     0.4
+    ]
+   ]
+  }
+ },
+ "assembling-machine": {
+  "chemical-plant": {
+   "type": "assembling-machine",
+   "name": "chemical-plant",
+   "collision_box": [
+    [
+     -1.2,
+     -1.2
+    ],
+    [
+     1.2,
+     1.2
+    ]
+   ],
+   "crafting_speed": 1
+  },
+  "oil-refinery": {
+   "type": "assembling-machine",
+   "name": "oil-refinery",
+   "collision_box": [
+    [
+     -2.2,
+     -2.2
+    ],
+    [
+     2.2,
+     2.2
+    ]
+   ]
+  }
+ },
+ "inserter": {
+  "fast-inserter": {
+   "type": "inserter",
+   "name": "fast-inserter",
+   "collision_box": [
+    [
+     -0.15,
+     -0.15
+    ],
+    [
+     0.15,
+     0.15
+    ]
+   ]
+  },
+  "inserter": {
+   "type": "inserter",
+   "name": "inserter",
+   "collision_box": [
+    [
+     -0.15,
+     -0.15
+    ],
+    [
+     0.15,
+     0.15
+    ]
+   ]
+  }
+ },
+ "electric-pole": {
+  "substation": {
+   "type": "electric-pole",
+   "name": "substation",
+   "collision_box": [
+    [
+     -0.7,
+     -0.7
+    ],
+    [
+     0.7,
+     0.7
+    ]
+   ]
+  },
+  "big-electric-pole": {
+   "type": "electric-pole",
+   "name": "big-electric-pole",
+   "collision_box": [
+    [
+     -0.65,
+     -0.65
+    ],
+    [
+     0.65,
+     0.65
+    ]
+   ]
+  }
+ },
+ "splitter": {
+  "splitter": {
+   "type": "splitter",
+   "name": "splitter",
+   "collision_box": [
+    [
+     -0.9,
+     -0.4
+    ],
+    [
+     0.9,
+     0.4
+    ]
+   ]
+  }
+ },
+ "item": {
+  "plastic-bar": {
+   "type": "item",
+   "name": "plastic-bar",
+   "stack_size": 100,
+   "icon": "__base__/graphics/icons/plastic-bar.png"
+  }
+ },
+ "recipe": {
+  "plastic-bar": {
+   "type": "recipe",
+   "name": "plastic-bar",
+   "results": [
+    {
+     "type": "item",
+     "name": "plastic-bar",
+     "amount": 2
+    }
+   ],
+   "energy_required": 1,
+   "ingredients": [
+    {
+     "type": "fluid",
+     "name": "petroleum-gas",
+     "amount": 20
+    },
+    {
+     "type": "item",
+     "name": "coal",
+     "amount": 1
+    }
+   ]
+  }
+ }
+}
