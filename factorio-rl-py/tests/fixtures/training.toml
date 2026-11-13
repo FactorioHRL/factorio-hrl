@@ -1,0 +1,38 @@
+# A mock training file: every section the loader reads, with values that are easy to recognise.
+name = "mock-training"
+algorithm = "maskable_ppo"
+seed = 3
+device = "cpu"
+out_dir = "somewhere"
+
+[model]
+architecture = "cnn"
+
+[model.options]
+channels = [8, 8]
+dilations = [1, 2]
+
+[ppo]
+init_from = "latest:other"
+n_envs = 2
+batch_size = 64
+
+[evaluation]
+every = 1000
+episodes = 3
+
+[stop]
+target_vs_expert = 0.8
+patience = 5
+
+[reward]
+line = 0.5
+stray = 0
+
+[live]
+enabled = true
+port = 9000
+
+[tracking]
+enabled = false
+uri = "sqlite:///x.db"

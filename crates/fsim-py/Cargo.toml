@@ -1,0 +1,25 @@
+[package]
+name = "fsim-py"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[lib]
+name = "_native"
+crate-type = ["cdylib"]
+# nothing to run natively; the Python test-suite exercises the module
+test = false
+doctest = false
+
+[dependencies]
+fsim-blueprint.workspace = true
+fsim-data.workspace = true
+fsim-env.workspace = true
+fsim-render.workspace = true
+pyo3.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true

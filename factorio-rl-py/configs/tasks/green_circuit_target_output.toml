@@ -1,0 +1,22 @@
+# One fixed task with a required output: the agent must build exactly the layout that makes
+# 4 green circuits per second on a 12x12 grid. The inputs are unlimited (the report's `flows` says
+# what the layout draws, which we assume is always delivered). Extra machines idle and are
+# penalised, missing ones lower the output. A quick check that the agent learns at all: the
+# best layout is 4 circuit + 6 cable assemblers.
+name = "green-circuit-target-output"
+mode = "target_output"
+
+target = "electronic-circuit"
+recipes = ["copper-cable", "electronic-circuit"]
+machines = ["assembling-machine-1"]
+
+[grid]
+width = 12
+height = 12
+
+[output]
+per_second = 4                    # a number, or { min = 2, max = 6 } to sample it per episode
+
+[supply]
+iron-plate = "unlimited"
+copper-plate = "unlimited"

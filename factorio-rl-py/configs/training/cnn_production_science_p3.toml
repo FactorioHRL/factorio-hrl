@@ -1,0 +1,51 @@
+# CNN, phase 3 of 3 for production science on 32x32, 11 kinds of machine, 0.3 packs/s, on the task production_science_target_output_access.toml.
+# Same rewards as phase 2, but machines nothing can reach make nothing (require_access), so a layout that
+# only works on paper does not produce. Continues phase 2.
+name = "cnn-prod-p3"
+algorithm = "maskable_ppo"
+seed = 0
+device = "cuda"
+out_dir = "runs"
+
+[model]
+architecture = "cnn"
+
+[model.options]                 # a tile sees 17x17 tiles with these dilations
+channels = [32, 64, 64, 64]
+dilations = [1, 2, 4, 1]
+
+[ppo]
+init_from = "latest:cnn-prod-p2"            # the newest finished run of that training
+total_timesteps = 3_000_000
+n_envs = 16
+n_steps = 512
+n_epochs = 20
+batch_size = 1024
+learning_rate = 1.5e-4
+gamma = 0.995
+ent_coef = 0.005
+
+[evaluation]
+every = 100_000
+episodes = 10
+
+[stop]
+target_vs_expert = 0.99
+patience = 15
+
+[reward]
+adjacency = 0.2
+line = 0.1
+stray = -0.1
+link = -0.5
+
+[live]                          # pass --live to watch; the viewer needs the game graphics for sprites
+enabled = false
+port = 8000
+game_dir = "../data/game"
+
+[tracking]
+enabled = true
+uri = "sqlite:///runs/mlflow.db"
+artifact_dir = "runs/mlartifacts"
+log_model = false

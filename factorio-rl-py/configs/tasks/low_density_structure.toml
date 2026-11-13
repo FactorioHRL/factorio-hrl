@@ -1,0 +1,23 @@
+# Low density structure: 20 copper plate + 2 steel plate + 5 plastic bar -> 1 (15 s).
+# Plastic is made on the grid in chemical plants from coal and petroleum gas, so the agent has to
+# split the grid between structure assemblers and chemical plants. Raw inputs arrive on belts
+# (a yellow belt carries 15 items/s); petroleum gas comes by pipe, taken as plentiful.
+name = "low-density-structure"
+mode = "supply_limited"
+
+target = "low-density-structure"
+recipes = ["low-density-structure", "plastic-bar"]
+# assembling-machine-3 can be added to let the agent choose a faster assembler
+machines = ["assembling-machine-2", "chemical-plant"]
+
+[grid]
+min = 8
+max = 20
+
+[supply]
+copper-plate = { min = 1, max = 15 }
+steel-plate = { min = 1, max = 15 }
+coal = { min = 1, max = 15 }
+petroleum-gas = "unlimited"
+
+

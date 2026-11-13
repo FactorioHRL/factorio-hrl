@@ -28,6 +28,10 @@ const MAX_SIDE_PX: u32 = 16_384;
 const MAX_SCALE: u32 = 512;
 const NATIVE_PX_PER_TILE: f32 = 32.0;
 const SHADOW_OPACITY: f32 = 0.55;
+/// Backing plate under recipe icons: colour, opacity and its size as a share of the icon.
+const ICON_PLATE: Rgb = (24, 24, 28);
+const ICON_PLATE_ALPHA: u8 = 205;
+const ICON_PLATE_SHARE: f32 = 0.95;
 
 struct Frame {
     scale: f32,
@@ -479,6 +483,18 @@ impl<'a> Renderer<'a> {
         let cx = frame.x(placed.cx + shift.0);
         let cy = frame.y(placed.cy + shift.1);
         let half = icon.size as f32 * factor / 2.0;
+        // a translucent dark plate keeps pale or transparent icons (e.g. the honeycomb of a low
+        // density structure) readable on top of the machine sprite
+        let plate = half * ICON_PLATE_SHARE;
+        fill_rect(
+            canvas,
+            cx - plate,
+            cy - plate,
+            2.0 * plate,
+            2.0 * plate,
+            ICON_PLATE,
+            ICON_PLATE_ALPHA,
+        );
         blit(
             canvas,
             &crop,

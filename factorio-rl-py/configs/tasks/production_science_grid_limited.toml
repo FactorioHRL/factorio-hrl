@@ -1,0 +1,22 @@
+# Production science on a fixed 32x32 grid with unlimited inputs: how many packs can the grid make,
+# and how much iron, copper, coal, stone and gas does that need? (see production_science.toml)
+name = "production-science-grid-limited"
+mode = "grid_limited"
+
+target = "production-science-pack"
+recipes = [
+  "production-science-pack", "rail", "iron-stick", "electric-furnace", "productivity-module",
+  "advanced-circuit", "electronic-circuit", "copper-cable", "plastic-bar", "steel-plate", "stone-brick",
+]
+machines = ["assembling-machine-2", "chemical-plant", "electric-furnace"]
+
+[grid]
+width = 32
+height = 32
+
+[supply]
+iron-plate = "unlimited"
+copper-plate = "unlimited"
+coal = "unlimited"
+stone = "unlimited"
+petroleum-gas = "unlimited"

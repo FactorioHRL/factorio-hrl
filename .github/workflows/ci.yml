@@ -19,3 +19,19 @@ jobs:
       - run: cargo fmt --check
       - run: cargo clippy --workspace --all-targets -- -D warnings
       - run: cargo test --workspace
+
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - uses: astral-sh/setup-uv@v5
+      - name: Build the extension and run the Python tests
+        working-directory: factorio-rl-py
+        run: |
+          uv venv --python 3.12
+          source .venv/bin/activate
+          uv pip install maturin numpy gymnasium pytest
+          maturin develop --uv
+          pytest

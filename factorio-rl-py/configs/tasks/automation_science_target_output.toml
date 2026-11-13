@@ -1,0 +1,25 @@
+# Automation science (red) packs from copper and iron plates, with a required output: build
+# exactly the machines that make 1 pack per second on a fixed 20x20 grid. The inputs are
+# unlimited, the report's `flows` shows what the layout draws (about 2 iron and 1 copper plate
+# per second at the target, since a pack is 1 copper plate + 1 gear and a gear is 2 iron plates).
+#
+# At 1 pack/s the chain needs 10 pack and 1 gear assemblers (assembling-machine-1, speed 0.5, so a
+# pack takes 10 s) out of the 36 that fit; two kinds of the same footprint, so the brute-force
+# expert applies.
+name = "automation-science-target-output"
+mode = "target_output"
+
+target = "automation-science-pack"
+recipes = ["automation-science-pack", "iron-gear-wheel"]
+machines = ["assembling-machine-1"]
+
+[grid]
+width = 20
+height = 20
+
+[output]
+per_second = 1
+
+[supply]
+iron-plate = "unlimited"
+copper-plate = "unlimited"

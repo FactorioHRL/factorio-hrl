@@ -1,0 +1,47 @@
+# Phase 2 of 2: continue phase 1 with the layout-shape terms on (default weights, see REWARDS.md).
+# Set `init_from` to the best.zip of the phase 1 run. Everything else is ppo_large.toml.
+# Masked PPO for big tasks (e.g. production science: 11 kinds of machine on a 32x32 grid).
+# The brute-force expert only covers two kinds, so the reference score is the ideal 1.0 and
+# `target_vs_expert` is the share of that ideal; integer machine counts keep it below 1.
+name = "ppo-large-phase2"
+algorithm = "maskable_ppo"
+seed = 0
+device = "cuda"
+out_dir = "runs"
+
+[ppo]
+init_from = "runs/<phase 1 run>/best.zip"
+total_timesteps = 3_000_000
+n_envs = 8
+n_steps = 512
+n_epochs = 10
+batch_size = 512
+learning_rate = 3e-4
+gamma = 0.995
+ent_coef = 0.01
+
+[model]                         # the network: "mlp" (default) or "cnn"; see src/factorio_rl/models/
+architecture = "mlp"
+
+[evaluation]
+every = 50_000
+episodes = 10
+
+[stop]
+target_vs_expert = 0.9
+patience = 20
+
+[live]
+enabled = false
+port = 8000
+game_dir = "../data/game"         
+
+[reward]                        # defaults: adjacency, line and stray count again
+# adjacency = 0.2
+# line = 0.3
+# stray = -0.1
+[tracking]                      # MLflow: params once, a few metrics per evaluation, a few files at the end
+enabled = true
+uri = "sqlite:///runs/mlflow.db"
+artifact_dir = "runs/mlartifacts"
+log_model = false               # copy best.zip (10-30 MB) into MLflow too; it is already in the run directory

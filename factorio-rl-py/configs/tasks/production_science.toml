@@ -1,0 +1,26 @@
+# Production science pack (purple science): 30 rail + 1 electric furnace + 1 productivity module
+# -> 3 packs (21 s). Raw inputs follow the "Raw Costs" of https://wiki.factorio.com/Production_science_pack
+# per pack: iron plate 52.5, copper plate 19.2, coal 3.3, stone 11.7 (and crude oil, taken here as
+# petroleum gas by pipe, plentiful). Everything between the raw inputs and the pack is built on
+# the grid: cable, circuits, advanced circuits, plastic (chemical plant), steel and stone brick
+# (electric furnaces), iron sticks, rails, electric furnaces, productivity modules.
+name = "production-science"
+mode = "supply_limited"
+
+target = "production-science-pack"
+recipes = [
+  "production-science-pack", "rail", "iron-stick", "electric-furnace", "productivity-module",
+  "advanced-circuit", "electronic-circuit", "copper-cable", "plastic-bar", "steel-plate", "stone-brick",
+]
+machines = ["assembling-machine-2", "chemical-plant", "electric-furnace"]
+
+[grid]
+min = 24
+max = 32
+
+[supply]
+iron-plate = { min = 2, max = 30 }
+copper-plate = { min = 1, max = 15 }
+coal = { min = 1, max = 10 }
+stone = { min = 1, max = 10 }
+petroleum-gas = "unlimited"

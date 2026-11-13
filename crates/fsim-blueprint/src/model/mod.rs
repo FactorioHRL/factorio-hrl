@@ -134,6 +134,11 @@ impl Design {
         root.blueprints().map(Self::from_raw).collect()
     }
 
+    /// Blueprint as text to paste into the game.
+    pub fn to_blueprint_string(&self) -> crate::Result<String> {
+        crate::encode(&raw::Root::Blueprint(self.to_blueprint()))
+    }
+
     /// Exports the model to a 2.0 blueprint. Entity numbers are assigned from 1 in `entities` order.
     pub fn to_blueprint(&self) -> raw::Blueprint {
         raw::Blueprint {

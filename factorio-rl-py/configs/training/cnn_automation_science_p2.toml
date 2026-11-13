@@ -1,0 +1,52 @@
+# CNN, phase 2 of 3 for automation science on 20x20, 2 kinds of machine, 1 pack/s (task: automation_science_target_output.toml).
+# Continues phase 1 with every reward term on (default weights, REWARDS.md): tidy rows of twins and
+# machines near the ones that make their ingredients. Lower learning rate and entropy: it is a
+# refinement of a model that already meets the output.
+name = "cnn-auto-p2"
+algorithm = "maskable_ppo"
+seed = 0
+device = "cuda"
+out_dir = "runs"
+
+[model]
+architecture = "cnn"
+
+[model.options]                 # a tile sees 17x17 tiles with these dilations
+channels = [32, 64, 64, 64]
+dilations = [1, 2, 4, 1]
+
+[ppo]
+init_from = "latest:cnn-auto-p1"            # the newest finished run of that training
+total_timesteps = 600_000
+n_envs = 8
+n_steps = 256
+n_epochs = 8
+batch_size = 512
+learning_rate = 1.5e-4
+gamma = 0.99
+ent_coef = 0.005
+
+[evaluation]
+every = 20_000
+episodes = 10
+
+[stop]
+target_vs_expert = 0.99
+patience = 10
+
+[reward]
+adjacency = 0.2
+line = 0.3
+stray = -0.1
+link = -0.5
+
+[live]                          # pass --live to watch; the viewer needs the game graphics for sprites
+enabled = false
+port = 8000
+game_dir = "../data/game"
+
+[tracking]
+enabled = true
+uri = "sqlite:///runs/mlflow.db"
+artifact_dir = "runs/mlartifacts"
+log_model = false

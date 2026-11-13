@@ -1,0 +1,20 @@
+# Green circuits from plates, built from assemblers only.
+name = "green-circuit"
+
+# supply_limited: the inputs are fixed (here sampled per episode) and the layout should use all
+#                 of them without a spare machine.
+# grid_limited:   every input is "unlimited"; the layout should make as much as the grid allows
+#                 and the report says how much input that needs.
+mode = "supply_limited"
+
+target = "electronic-circuit"
+recipes = ["copper-cable", "electronic-circuit"]
+machines = ["assembling-machine-1"]
+
+[grid]            # sampled per episode: width and height each in [min, max] (or give width/height)
+min = 6
+max = 30
+
+[supply]          # items per second: a number, { min, max } (sampled whole numbers) or "unlimited"
+iron-plate = { min = 1, max = 20 }
+copper-plate = { min = 1, max = 30 }

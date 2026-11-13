@@ -1,0 +1,51 @@
+# CNN, phase 1 of 3 for production science on 32x32, 11 kinds of machine, 0.3 packs/s (task: production_science_target_output.toml).
+# Learn to meet the required output with little waste and no walled-in machines; the layout-shape terms
+# (adjacency, line, stray) and the ingredient distance (link) are off, so the signal is just the goal.
+# Next: cnn_production_science_p2.toml, which continues from this run's best.zip. All three: scripts/train_cnn_production_science.sh
+name = "cnn-prod-p1"
+algorithm = "maskable_ppo"
+seed = 0
+device = "cuda"
+out_dir = "runs"
+
+[model]
+architecture = "cnn"
+
+[model.options]                 # a tile sees 17x17 tiles with these dilations
+channels = [32, 64, 64, 64]
+dilations = [1, 2, 4, 1]
+
+[ppo]
+total_timesteps = 6_000_000
+n_envs = 16
+n_steps = 512
+n_epochs = 6
+batch_size = 1024
+learning_rate = 3e-4
+gamma = 0.995
+ent_coef = 0.01
+
+[evaluation]
+every = 100_000
+episodes = 10
+
+[stop]
+target_vs_expert = 0.9
+patience = 15
+
+[reward]
+adjacency = 0
+line = 0
+stray = 0
+link = 0
+
+[live]                          # pass --live to watch; the viewer needs the game graphics for sprites
+enabled = false
+port = 8000
+game_dir = "../data/game"
+
+[tracking]
+enabled = true
+uri = "sqlite:///runs/mlflow.db"
+artifact_dir = "runs/mlartifacts"
+log_model = false

@@ -162,16 +162,18 @@ impl TryFrom<RecipeDef> for Recipe {
 
 impl RawData {
     pub fn recipe(&self, name: &str) -> Result<Option<Recipe>> {
-        self.get("recipe", name)
-            .map(|value| {
-                Prototype {
-                    kind: "recipe",
-                    name,
-                    value,
-                }
-                .parse_into::<RecipeDef, Recipe>()
-            })
-            .transpose()
+        self.recipes.get_or_compute(name, || {
+            self.get("recipe", name)
+                .map(|value| {
+                    Prototype {
+                        kind: "recipe",
+                        name,
+                        value,
+                    }
+                    .parse_into::<RecipeDef, Recipe>()
+                })
+                .transpose()
+        })
     }
 
     pub fn recipes(&self) -> impl Iterator<Item = Result<Recipe>> + '_ {

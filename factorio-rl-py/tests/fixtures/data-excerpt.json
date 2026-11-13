@@ -1,0 +1,421 @@
+{
+ "recipe": {
+  "copper-cable": {
+   "type": "recipe",
+   "name": "copper-cable",
+   "ingredients": [
+    {
+     "type": "item",
+     "name": "copper-plate",
+     "amount": 1
+    }
+   ],
+   "results": [
+    {
+     "type": "item",
+     "name": "copper-cable",
+     "amount": 2
+    }
+   ],
+   "categories": [
+    "crafting",
+    "electromagnetics"
+   ]
+  },
+  "electronic-circuit": {
+   "type": "recipe",
+   "name": "electronic-circuit",
+   "ingredients": [
+    {
+     "type": "item",
+     "name": "iron-plate",
+     "amount": 1
+    },
+    {
+     "type": "item",
+     "name": "copper-cable",
+     "amount": 3
+    }
+   ],
+   "results": [
+    {
+     "type": "item",
+     "name": "electronic-circuit",
+     "amount": 1
+    }
+   ],
+   "categories": [
+    "crafting",
+    "electromagnetics"
+   ]
+  },
+  "low-density-structure": {
+   "type": "recipe",
+   "name": "low-density-structure",
+   "categories": [
+    "crafting"
+   ],
+   "energy_required": 15,
+   "ingredients": [
+    {
+     "type": "item",
+     "name": "steel-plate",
+     "amount": 2
+    },
+    {
+     "type": "item",
+     "name": "copper-plate",
+     "amount": 20
+    },
+    {
+     "type": "item",
+     "name": "plastic-bar",
+     "amount": 5
+    }
+   ],
+   "results": [
+    {
+     "type": "item",
+     "name": "low-density-structure",
+     "amount": 1
+    }
+   ]
+  },
+  "plastic-bar": {
+   "type": "recipe",
+   "name": "plastic-bar",
+   "categories": [
+    "chemistry",
+    "cryogenics"
+   ],
+   "energy_required": 1,
+   "ingredients": [
+    {
+     "type": "fluid",
+     "name": "petroleum-gas",
+     "amount": 20
+    },
+    {
+     "type": "item",
+     "name": "coal",
+     "amount": 1
+    }
+   ],
+   "results": [
+    {
+     "type": "item",
+     "name": "plastic-bar",
+     "amount": 2
+    }
+   ]
+  },
+  "production-science-pack": {
+   "type": "recipe",
+   "name": "production-science-pack",
+   "energy_required": 21,
+   "ingredients": [
+    {
+     "type": "item",
+     "name": "electric-furnace",
+     "amount": 1
+    },
+    {
+     "type": "item",
+     "name": "productivity-module",
+     "amount": 1
+    },
+    {
+     "type": "item",
+     "name": "rail",
+     "amount": 30
+    }
+   ],
+   "results": [
+    {
+     "type": "item",
+     "name": "production-science-pack",
+     "amount": 3
+    }
+   ]
+  },
+  "rail": {
+   "type": "recipe",
+   "name": "rail",
+   "ingredients": [
+    {
+     "type": "item",
+     "name": "stone",
+     "amount": 1
+    },
+    {
+     "type": "item",
+     "name": "iron-stick",
+     "amount": 1
+    },
+    {
+     "type": "item",
+     "name": "steel-plate",
+     "amount": 1
+    }
+   ],
+   "results": [
+    {
+     "type": "item",
+     "name": "rail",
+     "amount": 2
+    }
+   ]
+  },
+  "iron-stick": {
+   "type": "recipe",
+   "name": "iron-stick",
+   "ingredients": [
+    {
+     "type": "item",
+     "name": "iron-plate",
+     "amount": 1
+    }
+   ],
+   "results": [
+    {
+     "type": "item",
+     "name": "iron-stick",
+     "amount": 2
+    }
+   ]
+  },
+  "electric-furnace": {
+   "type": "recipe",
+   "name": "electric-furnace",
+   "ingredients": [
+    {
+     "type": "item",
+     "name": "steel-plate",
+     "amount": 10
+    },
+    {
+     "type": "item",
+     "name": "advanced-circuit",
+     "amount": 5
+    },
+    {
+     "type": "item",
+     "name": "stone-brick",
+     "amount": 10
+    }
+   ],
+   "results": [
+    {
+     "type": "item",
+     "name": "electric-furnace",
+     "amount": 1
+    }
+   ],
+   "energy_required": 5
+  },
+  "productivity-module": {
+   "type": "recipe",
+   "name": "productivity-module",
+   "ingredients": [
+    {
+     "type": "item",
+     "name": "advanced-circuit",
+     "amount": 5
+    },
+    {
+     "type": "item",
+     "name": "electronic-circuit",
+     "amount": 5
+    }
+   ],
+   "energy_required": 15,
+   "results": [
+    {
+     "type": "item",
+     "name": "productivity-module",
+     "amount": 1
+    }
+   ],
+   "categories": [
+    "crafting",
+    "electromagnetics"
+   ]
+  },
+  "advanced-circuit": {
+   "type": "recipe",
+   "name": "advanced-circuit",
+   "energy_required": 6,
+   "ingredients": [
+    {
+     "type": "item",
+     "name": "electronic-circuit",
+     "amount": 2
+    },
+    {
+     "type": "item",
+     "name": "plastic-bar",
+     "amount": 2
+    },
+    {
+     "type": "item",
+     "name": "copper-cable",
+     "amount": 4
+    }
+   ],
+   "results": [
+    {
+     "type": "item",
+     "name": "advanced-circuit",
+     "amount": 1
+    }
+   ],
+   "categories": [
+    "crafting",
+    "electromagnetics"
+   ]
+  },
+  "steel-plate": {
+   "type": "recipe",
+   "name": "steel-plate",
+   "categories": [
+    "smelting"
+   ],
+   "energy_required": 16,
+   "ingredients": [
+    {
+     "type": "item",
+     "name": "iron-plate",
+     "amount": 5
+    }
+   ],
+   "results": [
+    {
+     "type": "item",
+     "name": "steel-plate",
+     "amount": 1
+    }
+   ]
+  },
+  "stone-brick": {
+   "type": "recipe",
+   "name": "stone-brick",
+   "categories": [
+    "smelting"
+   ],
+   "energy_required": 3.2,
+   "ingredients": [
+    {
+     "type": "item",
+     "name": "stone",
+     "amount": 2
+    }
+   ],
+   "results": [
+    {
+     "type": "item",
+     "name": "stone-brick",
+     "amount": 1
+    }
+   ]
+  }
+ },
+ "assembling-machine": {
+  "assembling-machine-1": {
+   "type": "assembling-machine",
+   "name": "assembling-machine-1",
+   "collision_box": [
+    [
+     -1.2,
+     -1.2
+    ],
+    [
+     1.2,
+     1.2
+    ]
+   ],
+   "crafting_categories": [
+    "crafting",
+    "advanced-crafting"
+   ],
+   "crafting_speed": 0.5
+  },
+  "assembling-machine-2": {
+   "type": "assembling-machine",
+   "name": "assembling-machine-2",
+   "collision_box": [
+    [
+     -1.2,
+     -1.2
+    ],
+    [
+     1.2,
+     1.2
+    ]
+   ],
+   "crafting_categories": [
+    "crafting",
+    "advanced-crafting",
+    "crafting-with-fluid"
+   ],
+   "crafting_speed": 0.75
+  },
+  "assembling-machine-3": {
+   "type": "assembling-machine",
+   "name": "assembling-machine-3",
+   "collision_box": [
+    [
+     -1.2,
+     -1.2
+    ],
+    [
+     1.2,
+     1.2
+    ]
+   ],
+   "crafting_categories": [
+    "crafting",
+    "advanced-crafting",
+    "crafting-with-fluid"
+   ],
+   "crafting_speed": 1.25
+  },
+  "chemical-plant": {
+   "type": "assembling-machine",
+   "name": "chemical-plant",
+   "collision_box": [
+    [
+     -1.2,
+     -1.2
+    ],
+    [
+     1.2,
+     1.2
+    ]
+   ],
+   "crafting_speed": 1,
+   "crafting_categories": [
+    "chemistry"
+   ]
+  }
+ },
+ "furnace": {
+  "electric-furnace": {
+   "type": "furnace",
+   "name": "electric-furnace",
+   "collision_box": [
+    [
+     -1.2,
+     -1.2
+    ],
+    [
+     1.2,
+     1.2
+    ]
+   ],
+   "crafting_categories": [
+    "smelting"
+   ],
+   "crafting_speed": 2
+  }
+ }
+}

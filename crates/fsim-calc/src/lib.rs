@@ -6,13 +6,19 @@
 use std::collections::{BTreeMap, HashMap};
 
 use fsim_blueprint::model::Design;
-use fsim_data::RawData;
+use fsim_data::{RawData, Recipe};
+
+mod steady;
+
+pub use steady::{ceiling, steady_state, Group, SteadyState, Supply};
 
 /// Errors of the calculator.
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
     #[error(transparent)]
     Data(#[from] fsim_data::Error),
+    #[error("linear program failed: {0}")]
+    Solver(String),
 }
 
 pub type Result<T> = std::result::Result<T, Error>;
@@ -29,6 +35,20 @@ impl Flow {
     pub fn is_input(&self) -> bool {
         self.per_second < 0.0
     }
+}
+
+/// Items gained (positive) or consumed (negative) by one craft of `recipe`; results use the
+/// expected amount (mean of `amount_min/max` times `probability`).
+pub(crate) fn net_per_craft(recipe: &Recipe) -> Vec<(String, f64)> {
+    let consumed = recipe
+        .ingredients
+        .iter()
+        .map(|i| (i.name.clone(), -i.amount));
+    let produced = recipe.results.iter().map(|p| {
+        let average = (p.amount_min + p.amount_max) / 2.0 * p.probability;
+        (p.name.clone(), average)
+    });
+    consumed.chain(produced).collect()
 }
 
 /// Net balance of all machines with a recipe. Inputs first (largest demand first),
@@ -53,15 +73,16 @@ pub fn net_flows(design: &Design, data: &RawData) -> Result<Vec<Flow>> {
             continue;
         };
         let crafts_per_second = speed / recipe.energy_required;
-        for ingredient in &recipe.ingredients {
-            *net.entry(ingredient.name.clone()).or_default() -=
-                ingredient.amount * crafts_per_second;
-        }
-        for product in &recipe.results {
-            let average = (product.amount_min + product.amount_max) / 2.0 * product.probability;
-            *net.entry(product.name.clone()).or_default() += average * crafts_per_second;
+        for (name, amount) in net_per_craft(&recipe) {
+            *net.entry(name).or_default() += amount * crafts_per_second;
         }
     }
+    Ok(into_flows(net))
+}
+
+/// Turns per-item net rates into sorted flows: inputs first (largest demand first), then
+/// outputs (largest production first). Zero balances are dropped.
+pub(crate) fn into_flows(net: BTreeMap<String, f64>) -> Vec<Flow> {
     let mut flows: Vec<Flow> = net
         .into_iter()
         .filter(|(_, rate)| rate.abs() > 1e-9)
@@ -72,7 +93,7 @@ pub fn net_flows(design: &Design, data: &RawData) -> Result<Vec<Flow>> {
             .cmp(&a.is_input())
             .then_with(|| b.per_second.abs().total_cmp(&a.per_second.abs()))
     });
-    Ok(flows)
+    flows
 }
 
 #[cfg(test)]

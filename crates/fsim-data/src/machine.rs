@@ -87,10 +87,12 @@ fn convert(proto: Prototype<'_>) -> Result<Machine> {
 
 impl RawData {
     pub fn machine(&self, name: &str) -> Result<Option<Machine>> {
-        self.all()
-            .find(|p| p.name == name && p.has("crafting_speed"))
-            .map(convert)
-            .transpose()
+        self.machines.get_or_compute(name, || {
+            self.all()
+                .find(|p| p.name == name && p.has("crafting_speed"))
+                .map(convert)
+                .transpose()
+        })
     }
 
     pub fn machines(&self) -> impl Iterator<Item = Result<Machine>> + '_ {

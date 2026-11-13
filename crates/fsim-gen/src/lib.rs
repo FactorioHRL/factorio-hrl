@@ -49,5 +49,5 @@ impl Params {
 
 /// Blueprint as text to paste into the game.
 pub fn to_blueprint_string(design: &Design) -> fsim_blueprint::Result<String> {
-    fsim_blueprint::encode(&fsim_blueprint::Root::Blueprint(design.to_blueprint()))
+    design.to_blueprint_string()
 }

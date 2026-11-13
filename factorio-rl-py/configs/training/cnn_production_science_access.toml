@@ -1,0 +1,52 @@
+# CNN for production science with machine access required, trained from scratch: phase 3 on its own,
+# for when phases 1 and 2 were not run. Every reward term is on (the weights of cnn_production_science_p3) and
+# machines nothing can reach make nothing (the `..._access` task). Starting without a model that already
+# meets the output is harder than the three-phase curriculum (cnn_production_science_p1..p3), so it
+# is given the longer p1 budget.
+name = "cnn-prod-access"
+algorithm = "maskable_ppo"
+seed = 0
+device = "cuda"
+out_dir = "runs"
+
+[model]
+architecture = "cnn"
+
+[model.options]                 # a tile sees 17x17 tiles with these dilations
+channels = [32, 64, 64, 64]
+dilations = [1, 2, 4, 1]
+
+[ppo]
+total_timesteps = 6_000_000
+n_envs = 16
+n_steps = 512
+n_epochs = 6
+batch_size = 1024
+learning_rate = 3e-4
+gamma = 0.995
+ent_coef = 0.01
+
+[evaluation]
+every = 100_000
+episodes = 10
+
+[stop]
+target_vs_expert = 0.9
+patience = 15
+
+[reward]
+adjacency = 0.2
+line = 0.1
+stray = -0.1
+link = -0.5
+
+[live]                          # pass --live to watch; the viewer needs the game graphics for sprites
+enabled = false
+port = 8000
+game_dir = "../data/game"
+
+[tracking]
+enabled = true
+uri = "sqlite:///runs/mlflow.db"
+artifact_dir = "runs/mlartifacts"
+log_model = false

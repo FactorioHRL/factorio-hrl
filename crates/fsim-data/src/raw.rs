@@ -4,10 +4,19 @@ use std::path::Path;
 use serde_json::Value;
 
 use crate::error::{Error, Result};
+use crate::geometry::EntityInfo;
+use crate::machine::Machine;
+use crate::memo::Memo;
+use crate::recipe::Recipe;
 
 #[derive(Debug, Clone, Default)]
 pub struct RawData {
     prototypes: BTreeMap<String, BTreeMap<String, Value>>,
+    // Parsed views, remembered per name: the simulator asks for the same few prototypes on every
+    // step, and finding and parsing one means scanning the dump.
+    pub(crate) recipes: Memo<Recipe>,
+    pub(crate) machines: Memo<Machine>,
+    pub(crate) geometries: Memo<EntityInfo>,
 }
 
 impl RawData {
@@ -23,6 +32,7 @@ impl RawData {
     pub fn from_slice(bytes: &[u8]) -> Result<Self> {
         Ok(Self {
             prototypes: serde_json::from_slice(bytes)?,
+            ..Self::default()
         })
     }
 

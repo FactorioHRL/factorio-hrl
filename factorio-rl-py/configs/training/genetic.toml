@@ -1,0 +1,27 @@
+# Genetic search on one task sampled with `seed`. Same CLI as the RL runs.
+name = "genetic"
+algorithm = "genetic"
+seed = 0
+out_dir = "runs"
+
+[genetic]
+population = 60
+generations = 200
+
+[live]
+enabled = false
+port = 8000
+game_dir = ""
+
+[reward]                        # optional: weights of the reward terms (see REWARDS.md); these are the defaults
+# output = 1.0
+# waste = -1.0
+# adjacency = 0.05
+# line = 0.05
+# stray = -0.05
+
+[tracking]                      # MLflow: params once, a few metrics per evaluation, a few files at the end
+enabled = true
+uri = "sqlite:///runs/mlflow.db"
+artifact_dir = "runs/mlartifacts"
+log_model = false               # copy best.zip (10-30 MB) into MLflow too; it is already in the run directory

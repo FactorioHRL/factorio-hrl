@@ -31,5 +31,12 @@ Search crates.io for a maintained, widely used crate (`cargo search`, lib.rs, do
 
 - Unit tests sit next to the code; integration tests live in `crates/*/tests/`. Tests needing the full dump or game graphics skip themselves when `FSIM_DUMP` / `FSIM_GAME_DIR` are unset.
 - A bug fix starts with a failing test.
+- Tests cover module code only: `src/factorio_rl` and the Rust crates. Scripts (`scripts/`), shipped configs (`configs/`) and docs are not tested, and tests build their inputs inline instead of reading shipped files.
 - Wube graphics and full dumps stay out of the repo; fixtures are small excerpts (`data-excerpt.json`).
 - Determinism is a feature: the same seed and input give identical output.
+
+## Python (`factorio-rl-py`)
+
+- Python is a thin client: rules, validation and scoring live in Rust (`fsim-env`, `fsim-calc`) and cross `fsim-py` as JSON. Add logic to the Rust side first, so every client shares it.
+- Reuse libraries (`gymnasium`, `stable-baselines3`, `numpy`) before writing helpers. Type-annotate public functions and keep modules small.
+- `pytest` runs on `tests/fixtures/data-excerpt.json` and needs no game data.

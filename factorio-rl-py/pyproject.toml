@@ -1,0 +1,22 @@
+[build-system]
+requires = ["maturin>=1.7,<2"]
+build-backend = "maturin"
+
+[project]
+name = "factorio-rl"
+version = "0.0.0"
+description = "RL / genetic-search environments on top of the factorio-hrl Rust engine"
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.26", "gymnasium>=1.0"]
+
+[project.optional-dependencies]
+train = ["stable-baselines3>=2.4", "sb3-contrib>=2.4", "mlflow>=3", "tqdm>=4.66"]
+dev = ["pytest>=8"]
+
+[tool.maturin]
+manifest-path = "../crates/fsim-py/Cargo.toml"
+python-source = "src"
+module-name = "factorio_rl._native"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

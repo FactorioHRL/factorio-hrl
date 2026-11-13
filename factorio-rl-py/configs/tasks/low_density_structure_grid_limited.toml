@@ -1,0 +1,18 @@
+# Low density structure on a fixed 20x20 grid with unlimited inputs: how much can the grid make,
+# and how much copper, steel, coal and gas does that need?
+name = "low-density-structure-grid-limited"
+mode = "grid_limited"
+
+target = "low-density-structure"
+recipes = ["low-density-structure", "plastic-bar"]
+machines = ["assembling-machine-2", "chemical-plant"]
+
+[grid]
+width = 20
+height = 20
+
+[supply]
+copper-plate = "unlimited"
+steel-plate = "unlimited"
+coal = "unlimited"
+petroleum-gas = "unlimited"

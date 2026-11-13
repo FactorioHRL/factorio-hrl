@@ -1,0 +1,31 @@
+# Production science on a fixed 32x32 grid with a required output: build exactly the machines
+# that make 0.3 packs per second, with unlimited inputs (the report's `flows` shows the iron,
+# copper, coal, stone and gas that layout draws). Extra machines idle and are penalised.
+#
+# Sizing: the chain at 0.3 packs/s needs about 45 of the 113 machines that fit on 32x32
+# (0.2 -> 35, 0.4 -> 63, 0.5 -> 77; the grid's theoretical ceiling is about 0.7). Raise the rate
+# to make the task harder, or use { min, max } to sample it per episode.
+name = "production-science-target-output"
+mode = "target_output"
+
+# require_access = true          # machines nothing can reach make nothing (see REWARDS.md); try it in a second phase
+target = "production-science-pack"
+recipes = [
+  "production-science-pack", "rail", "iron-stick", "electric-furnace", "productivity-module",
+  "advanced-circuit", "electronic-circuit", "copper-cable", "plastic-bar", "steel-plate", "stone-brick",
+]
+machines = ["assembling-machine-2", "chemical-plant", "electric-furnace"]
+
+[grid]
+width = 32
+height = 32
+
+[output]
+per_second = 0.3
+
+[supply]
+iron-plate = "unlimited"
+copper-plate = "unlimited"
+coal = "unlimited"
+stone = "unlimited"
+petroleum-gas = "unlimited"

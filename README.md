@@ -53,6 +53,10 @@ Tests needing the full dump or graphics are skipped unless these variables are s
 FSIM_DUMP=<data-raw-dump.json> FSIM_GAME_DIR=<factorio-install-dir> cargo test --workspace
 ```
 
+## Python and RL
+
+`factorio-rl-py/` is a Python package (maturin + PyO3, see `crates/fsim-py`) with a Gymnasium environment for learning machine layouts, a genetic-search baseline and a PPO training script. See `factorio-rl-py/README.md`.
+
 ## Development
 
 See `CLAUDE.md` for coding conventions. Before sending changes: `cargo fmt --check`, `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace`.

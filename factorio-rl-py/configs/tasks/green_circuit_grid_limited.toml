@@ -1,0 +1,16 @@
+# Same recipes, but the inputs are unlimited: fill the grid with the best machine mix.
+# The report's `flows` says how many plates per second that layout draws.
+name = "green-circuit-grid-limited"
+mode = "grid_limited"
+
+target = "electronic-circuit"
+recipes = ["copper-cable", "electronic-circuit"]
+machines = ["assembling-machine-1"]
+
+[grid]
+min = 6
+max = 30
+
+[supply]
+iron-plate = "unlimited"
+copper-plate = "unlimited"

@@ -8,6 +8,7 @@ license.workspace = true
 [dependencies]
 fsim-blueprint.workspace = true
 fsim-data.workspace = true
+good_lp.workspace = true
 thiserror.workspace = true
 
 [lints]

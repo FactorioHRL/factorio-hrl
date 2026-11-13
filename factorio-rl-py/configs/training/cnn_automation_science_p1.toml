@@ -1,0 +1,51 @@
+# CNN, phase 1 of 3 for automation science on 20x20, 2 kinds of machine, 1 pack/s (task: automation_science_target_output.toml).
+# Learn to meet the required output with little waste and no walled-in machines; the layout-shape terms
+# (adjacency, line, stray) and the ingredient distance (link) are off, so the signal is just the goal.
+# Next: cnn_automation_science_p2.toml, which continues from this run's best.zip. All three: scripts/train_cnn_automation_science.sh
+name = "cnn-auto-p1"
+algorithm = "maskable_ppo"
+seed = 0
+device = "cuda"
+out_dir = "runs"
+
+[model]
+architecture = "cnn"
+
+[model.options]                 # a tile sees 17x17 tiles with these dilations
+channels = [32, 64, 64, 64]
+dilations = [1, 2, 4, 1]
+
+[ppo]
+total_timesteps = 600_000
+n_envs = 8
+n_steps = 256
+n_epochs = 8
+batch_size = 512
+learning_rate = 3e-4
+gamma = 0.99
+ent_coef = 0.01
+
+[evaluation]
+every = 20_000
+episodes = 10
+
+[stop]
+target_vs_expert = 0.95
+patience = 10
+
+[reward]
+adjacency = 0
+line = 0
+stray = 0
+link = 0
+
+[live]                          # pass --live to watch; the viewer needs the game graphics for sprites
+enabled = false
+port = 8000
+game_dir = "../data/game"
+
+[tracking]
+enabled = true
+uri = "sqlite:///runs/mlflow.db"
+artifact_dir = "runs/mlartifacts"
+log_model = false

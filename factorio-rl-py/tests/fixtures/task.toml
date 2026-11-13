@@ -1,0 +1,18 @@
+# A mock task file: every key the loader reads, with values that are easy to recognise.
+name = "mock-task"
+mode = "target_output"
+target = "electronic-circuit"
+recipes = ["copper-cable", "electronic-circuit"]
+machines = ["assembling-machine-1"]
+require_access = true
+
+[grid]
+width = 12
+height = 8
+
+[output]
+per_second = 4
+
+[supply]
+iron-plate = "unlimited"
+copper-plate = "unlimited"

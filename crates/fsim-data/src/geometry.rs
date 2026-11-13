@@ -78,10 +78,12 @@ fn convert(proto: Prototype<'_>) -> Result<EntityInfo> {
 
 impl RawData {
     pub fn entity_geometry(&self, name: &str) -> Result<Option<EntityInfo>> {
-        self.all()
-            .find(|p| p.name == name && p.has("collision_box"))
-            .map(convert)
-            .transpose()
+        self.geometries.get_or_compute(name, || {
+            self.all()
+                .find(|p| p.name == name && p.has("collision_box"))
+                .map(convert)
+                .transpose()
+        })
     }
 
     pub fn entity_geometries(&self) -> impl Iterator<Item = Result<EntityInfo>> + '_ {

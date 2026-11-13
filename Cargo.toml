@@ -14,7 +14,9 @@ base64 = "0.22"
 clap = { version = "4.5.61", features = ["derive", "env"] }
 flate2 = "1"
 fontdue = "0.9.5"
+good_lp = { version = "1.15", default-features = false, features = ["microlp"] }
 predicates = "3.1"
+pyo3 = { version = "0.30", features = ["abi3-py310", "extension-module"] }
 rand = "0.10"
 rand_chacha = "0.10"
 serde = { version = "1", features = ["derive"] }
@@ -24,6 +26,7 @@ tiny-skia = "0.11"
 fsim-blueprint = { path = "crates/fsim-blueprint" }
 fsim-calc = { path = "crates/fsim-calc" }
 fsim-data = { path = "crates/fsim-data" }
+fsim-env = { path = "crates/fsim-env" }
 fsim-gen = { path = "crates/fsim-gen" }
 fsim-render = { path = "crates/fsim-render" }
 
@@ -32,3 +35,7 @@ unsafe_code = "forbid"
 
 [workspace.lints.clippy]
 all = "warn"
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
